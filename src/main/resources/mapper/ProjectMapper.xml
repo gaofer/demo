@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ProjectMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id AS "id", create_time AS "createTime", flag AS "flag", modify_time AS "modifyTime",
+        project_name AS "projectName", unit AS "unit", nature AS "nature", plan_value AS "planValue"
+    </sql>
+
+    <select id="selectPage" resultType="com.example.demo.model.ProjectParam" parameterType="com.example.demo.model.ProjectParam">
+        select
+        <include refid="Base_Column_List"/>
+        from project where flag = 1
+        <if test="projectParam.id != null and projectParam.id != ''">
+            and id like CONCAT('%',#{projectParam.id},'%')
+        </if>
+        <if test="projectParam.projectName != null and projectParam.projectName != ''">
+            and project_name like CONCAT('%',#{projectParam.projectName},'%')
+        </if>
+        <if test="projectParam.unit != null and projectParam.unit != ''">
+            and unit like CONCAT('%',#{projectParam.unit},'%')
+        </if>
+        <if test="projectParam.nature != null and projectParam.nature != ''">
+            and nature like CONCAT('%',#{projectParam.nature},'%')
+        </if>
+    </select>
+</mapper>
